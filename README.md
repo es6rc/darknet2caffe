@@ -17,7 +17,7 @@
   $ cd $HOME && git clone https://github.com/BVLC/caffe.git
   $ cd $HOME && git clone https://github.com/es6rc/darknet2caffe.git
   $ cd darknet2caffe
-  $ cp ./Makefile.config $HOME/caffe # Modify in Makefile.config 
+  $ cp ./Makefile.config $HOME/caffe # Make sure $CONDA_VENV_HOME in Makefile.config is your venv directory
   $ cd $HOME/caffe
   $ make all
   $ make pycaffe
