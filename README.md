@@ -10,7 +10,7 @@
   ```
   Caffe
   * Modify Makefile.config and make sure the `CONDA_VENV_HOME` is set to your anaconda directory
-  * Modify source code as [Add Caffe Layers](#add-caffe-layers)
+  * Modify source code as [Add Caffe Layers](##add-caffe-layers)
   * Compile Caffe
   ```
   $ cd $HOME && git clone https://github.com/BVLC/caffe.git
@@ -27,8 +27,9 @@
   ```
   $ conda activate darknet2caffe # Activate virtual env
   $ pip install torch
+  $ pip install future # Install dependencies
   ```
-# Add Caffe Layers
+## Add Caffe Layers
 1. Copy `caffe_layers/mish_layer/mish_layer.hpp,caffe_layers/upsample_layer/upsample_layer.hpp` into `include/caffe/layers/`.
 ```
 $ cd $HOME/darknet2caffe
@@ -40,7 +41,6 @@ $ cp ./caffe_layers/upsample_layer/upsample_layer.hpp $HOME/caffe/include/caffe/
 $ cd $HOME/darknet2caffe
 $ cp caffe_layers/mish_layer/mish_layer.c* $HOME/caffe/src/caffe/layers/
 $ cp caffe_layers/upsample_layer/upsample_layer.c* $HOME/caffe/src/caffe/layers/
-
 ```
 3. Copy `caffe_layers/pooling_layer/pooling_layer.cpp` into `src/caffe/layers/`.Note:only work for yolov3-tiny,use with caution.
 ```
@@ -91,7 +91,7 @@ message LayerParameter {
   
   Example
 ```
-python cfg/yolov4.cfg weights/yolov4.weights prototxt/yolov4.prototxt caffemodel/yolov4.caffemodel
+python darknet2caffe.py ./cfg/ods_yolov3.cfg ./weights/ods_yolov3_final.weights ./prototxt/ods_yolov3.prototxt ./caffemodel/ods_yolov3.caffemodel
 ```
   partial log as below.
 ```
