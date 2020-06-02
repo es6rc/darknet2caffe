@@ -1,4 +1,5 @@
-# Requirements
+# Darknet2Caffemodel
+## Requirements and Caffe Installation Guidance
   
   1. Python2.7
   ``` shell
@@ -11,13 +12,15 @@
 
   2. Caffe
   * Modify Makefile.config and make sure the `CONDA_VENV_HOME` is set to your anaconda directory
-  * Modify source code as [Add Caffe Layers](##add-caffe-layers)
-  * Compile Caffe
+  * Git Clone
   ``` shell
   $ cd $HOME && git clone https://github.com/BVLC/caffe.git
   $ cd $HOME && git clone https://github.com/es6rc/darknet2caffe.git
-  $ cd darknet2caffe
-  $ cp ./Makefile.config $HOME/caffe # Make sure $CONDA_VENV_HOME in Makefile.config is your venv directory
+  ```
+  * Modify caffe source code as [Modifications](###modifications)
+  * Make Caffe
+  ``` shell
+  $ cp $HOME/darknet2caffe/Makefile.config $HOME/caffe # Make sure $CONDA_VENV_HOME in Makefile.config is your venv directory
   $ cd $HOME/caffe
   $ make all
   $ make pycaffe
@@ -32,7 +35,9 @@
   ```
 
 
-## Add Caffe Layers
+### Modifications
+
+**Add Caffe Layers for yolov3 and yolov4**
 
 1. Copy `caffe_layers/mish_layer/mish_layer.hpp,caffe_layers/upsample_layer/upsample_layer.hpp` into `include/caffe/layers/`.
 ```
@@ -90,9 +95,22 @@ message LayerParameter {
 ++  optional Engine engine = 2 [default = DEFAULT];
 ++}
 ```
-5.(re)make caffe.
 
-# Demo
+**Modify Makefile**
+
+5. Modify `Makefile` and add `-std=c++11` to `CXXFLAGS`, `NVCCFLAGS` and `LINKFLAGS`
+``` Makefile
+### Line 423
+CXXFLAGS += -pthread -fPIC $(COMMON_FLAGS) $(WARNINGS) -std=c++11
+NVCCFLAGS += -ccbin=$(CXX) -Xcompiler -fPIC $(COMMON_FLAGS) -std=c++11
+### Line 426&427
+LINKFLAGS += -pthread -fPIC $(COMMON_FLAGS) $(WARNINGS) -std=c++11
+### Line 429
+```
+
+6.(re)make caffe.
+
+## Demo
 ``` shell
   $ python darknet2caffe.py cfg[in] weights[in] prototxt[out] caffemodel[out]
 ``` 
