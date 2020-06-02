@@ -1,3 +1,5 @@
 *.weights
 *.caffemodel
 *.pyc
+*.cfg
+*.prototxt
